@@ -15,7 +15,7 @@ public interface IOrderServices<D, E> {
     public D orderServiceCreate(D d);
 
     // LIST
-    public List<D> orderServiceList(Long id);
+    public List<D> orderServiceList();
 
     // FIND BY
     public D orderServiceFindById(Long id);
