@@ -11,7 +11,7 @@ import java.util.Optional;
 // LOMBOK
 @Log4j2
 
-@Component // Bu nesne Spring nesnesinin artık bir parçasıdır.
+@Component
 public class AuditorAwareImpl implements AuditorAware<String> {
 
     // OVERRIDE
