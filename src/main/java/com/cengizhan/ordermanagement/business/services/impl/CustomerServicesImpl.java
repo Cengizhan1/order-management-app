@@ -5,6 +5,7 @@ import com.cengizhan.ordermanagement.business.dto.CustomerDto;
 import com.cengizhan.ordermanagement.business.services.ICustomerServices;
 import com.cengizhan.ordermanagement.data.entity.CustomerEntity;
 import com.cengizhan.ordermanagement.data.repository.ICustomerRepository;
+import com.cengizhan.ordermanagement.data.repository.IOrderRepository;
 import com.cengizhan.ordermanagement.exception.CustomException;
 import com.cengizhan.ordermanagement.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // LOMBOK
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class CustomerServicesImpl implements ICustomerServices<CustomerDto, Cust
 
     private final ICustomerRepository iCustomerRepository;
     private final ModelMapperBean modelMapperBean;
+    private final IOrderRepository iOrderRepository;
 
 
     // MODEL MAPPER
@@ -45,6 +48,7 @@ public class CustomerServicesImpl implements ICustomerServices<CustomerDto, Cust
             CustomerEntity customerEntity=dtoToEntity(customerDto);
             iCustomerRepository.save(customerEntity);
             customerDto.setId(customerEntity.getCustomerId());
+            customerDto.setCreatedDate(customerEntity.getCreatedDate());
         }else{
             throw  new NullPointerException( " CustomerDto null");
         }
@@ -58,6 +62,7 @@ public class CustomerServicesImpl implements ICustomerServices<CustomerDto, Cust
         List<CustomerDto> customerDtoList=new ArrayList<>();
         for (CustomerEntity entity:  entityIterable) {
             CustomerDto customerDto=entityToDto(entity);
+            customerDto.setCreatedDate(entity.getCreatedDate());
             customerDtoList.add(customerDto);
         }
         return customerDtoList;
@@ -70,6 +75,7 @@ public class CustomerServicesImpl implements ICustomerServices<CustomerDto, Cust
         if(id!=null){
             findCustomerEntity=  iCustomerRepository.findById(id)
                     .orElseThrow(()->new ResourceNotFoundException(id+" nolu id yoktur"));
+
         }else {
             throw new CustomException("İd null olarak geldi");
         }
@@ -87,6 +93,8 @@ public class CustomerServicesImpl implements ICustomerServices<CustomerDto, Cust
             customerEntity.setAge(customerDto.getAge());
             iCustomerRepository.save(customerEntity);
             customerDto.setId(customerEntity.getCustomerId());
+            customerDto.setCreatedDate(customerEntity.getCreatedDate());
+
         }
         return customerDto;
     }
@@ -108,6 +116,29 @@ public class CustomerServicesImpl implements ICustomerServices<CustomerDto, Cust
     public CustomerDto customerServiceDeleteAll() {
             iCustomerRepository.deleteAll();
         return null;
+    }
+
+    @Override
+    public List<CustomerDto> getCustomersByNameContains(String keyword) {
+        List<CustomerEntity> customerEntities = iCustomerRepository.findByNameContainingIgnoreCase(keyword);
+        List<CustomerDto> customerDtoList = new ArrayList<>();
+
+        for (CustomerEntity entity : customerEntities) {
+            CustomerDto customerDto = entityToDto(entity);
+            customerDtoList.add(customerDto);
+        }
+        return customerDtoList;
+    }
+
+    @Override
+    public List<CustomerDto> getCustomersWithoutOrders() {
+        List<CustomerEntity> customerEntities = iCustomerRepository.findByRelationOrderEntityListIsNull();
+        List<CustomerDto> customerDtoList = new ArrayList<>();
+        for (CustomerEntity entity : customerEntities) {
+            CustomerDto customerDto = entityToDto(entity);
+            customerDtoList.add(customerDto);
+        }
+        return customerDtoList;
     }
 
 

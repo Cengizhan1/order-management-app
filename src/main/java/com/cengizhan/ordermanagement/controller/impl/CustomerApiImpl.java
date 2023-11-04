@@ -70,4 +70,16 @@ public class CustomerApiImpl implements ICustomerApi<CustomerDto> {
     public ResponseEntity<?> customerApiAllDelete() {
         return new ResponseEntity<>(iCustomerServices.customerServiceDeleteAll(), HttpStatus.OK);
     }
+
+    @Override
+    @GetMapping("/getByNameContains")
+    public ResponseEntity<List<CustomerDto>> getCustomersByNameContains(@RequestParam String keyword) {
+        return ResponseEntity.status(HttpStatus.OK).body(iCustomerServices.getCustomersByNameContains(keyword));
+    }
+
+    @Override
+    @GetMapping("/getCustomersWithoutOrders")
+    public ResponseEntity<List<CustomerDto>> getCustomersWithoutOrders() {
+        return ResponseEntity.status(HttpStatus.OK).body(iCustomerServices.getCustomersWithoutOrders());
+    }
 }

@@ -27,5 +27,9 @@ public interface ICustomerApi<D> {
     // ALL DELETE
     public ResponseEntity<?> customerApiAllDelete();
 
+    public ResponseEntity<List<D>>  getCustomersByNameContains(String keyword);
+    public ResponseEntity<List<D>>  getCustomersWithoutOrders();
+
+
 
 }

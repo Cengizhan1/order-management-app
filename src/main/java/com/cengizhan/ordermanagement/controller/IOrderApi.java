@@ -3,6 +3,7 @@ package com.cengizhan.ordermanagement.controller;
 
 import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IOrderApi <D> {
@@ -26,4 +27,7 @@ public interface IOrderApi <D> {
     //////////////////////////////////////
     // ALL DELETE
     public ResponseEntity<?> orderApiAllDelete();
+
+    public ResponseEntity<List<D>>  getOrdersAfterDate(Date date);
+
 }

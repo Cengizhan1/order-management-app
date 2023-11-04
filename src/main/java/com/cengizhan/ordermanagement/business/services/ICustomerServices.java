@@ -29,4 +29,8 @@ public interface ICustomerServices<D, E> {
     // All DELETE
     public D customerServiceDeleteAll();
 
+    public List<D> getCustomersByNameContains(String keyword);
+
+    public List<D> getCustomersWithoutOrders();
+
 }

@@ -27,5 +27,6 @@ abstract  public class AuditingAwareBaseDto  implements Serializable {
     @JsonIgnore
     protected String updatedUser;
 
+    @JsonIgnore
     protected Date updatedDate;
 }

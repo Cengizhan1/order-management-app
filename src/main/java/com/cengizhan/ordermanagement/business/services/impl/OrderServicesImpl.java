@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 // LOMBOK
@@ -113,6 +114,21 @@ public class OrderServicesImpl implements IOrderServices<OrderDto, OrderEntity> 
         iOrderRepository.deleteAll();
         return null;
     }
+
+    @Override
+    public List<OrderDto> orderServiceFindByCreatedDateAfter(Date date) {
+        List<OrderEntity> orderEntities = iOrderRepository.findByCreatedDateAfter(date);
+        log.info(date);
+        log.info(orderEntities.size());
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for (OrderEntity entity : orderEntities) {
+            OrderDto orderDto = entityToDto(entity);
+            orderDtoList.add(orderDto);
+        }
+
+        return orderDtoList;
+    }
+
 
 
 }

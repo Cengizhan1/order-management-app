@@ -1,4 +1,7 @@
 package com.cengizhan.ordermanagement.business.services;
+import com.cengizhan.ordermanagement.business.dto.OrderDto;
+
+import java.util.Date;
 import java.util.List;
 
 // D: Dto
@@ -28,4 +31,7 @@ public interface IOrderServices<D, E> {
 
     // All DELETE
     public D orderServiceDeleteAll();
+
+    List<OrderDto> orderServiceFindByCreatedDateAfter(Date date);
+
 }
