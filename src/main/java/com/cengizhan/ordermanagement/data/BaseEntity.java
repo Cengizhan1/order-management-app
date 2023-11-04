@@ -18,10 +18,10 @@ import java.util.Date;
 abstract public class BaseEntity extends AuditingAwareBaseEntity {
 
     // ID (Unique)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    protected Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id")
+//    protected Long id;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
