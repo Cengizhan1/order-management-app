@@ -12,7 +12,6 @@ Technologies Used
 - JavaScript (Axios library)
 - MySql
 
-This project offers a platform where users can create projects, add tasks, and manage them. Moreover, the user-friendly interface of the project facilitates easy execution of operations.
 
 
 ## Requirements
