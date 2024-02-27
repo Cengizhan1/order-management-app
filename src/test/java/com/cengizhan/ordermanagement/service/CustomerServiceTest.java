@@ -1,5 +1,6 @@
 package com.cengizhan.ordermanagement.service;
 
+import com.cengizhan.ordermanagement.TestSupport;
 import com.cengizhan.ordermanagement.dto.CustomerDto;
 import com.cengizhan.ordermanagement.dto.request.CustomerCreateRequest;
 import com.cengizhan.ordermanagement.dto.request.CustomerUpdateRequest;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CustomerServiceTest {
+class CustomerServiceTest extends TestSupport {
 
     private ICustomerRepository iCustomerRepository;
     private CustomerService service;

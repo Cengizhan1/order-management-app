@@ -1,5 +1,6 @@
 package com.cengizhan.ordermanagement.service;
 
+import com.cengizhan.ordermanagement.TestSupport;
 import com.cengizhan.ordermanagement.dto.OrderDto;
 import com.cengizhan.ordermanagement.dto.request.OrderCreateRequest;
 import com.cengizhan.ordermanagement.dto.request.OrderUpdateRequest;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class OrderServiceTest {
+class OrderServiceTest extends TestSupport {
 
     private IOrderRepository iOrderRepository;
     private CustomerService customerService;
@@ -183,16 +184,5 @@ class OrderServiceTest {
         assertEquals(2, actualList.size());
 
         verify(iOrderRepository).findAllByCreatedAtAfter(any(LocalDateTime.class));
-    }
-
-    public Instant getCurrentInstant() {
-        String instantExpected = "2021-06-15T10:15:30Z";
-        Clock clock = Clock.fixed(Instant.parse(instantExpected), Clock.systemDefaultZone().getZone());
-
-        return Instant.now(clock);
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return LocalDateTime.ofInstant(getCurrentInstant(), Clock.systemDefaultZone().getZone());
     }
 }
