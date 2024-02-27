@@ -10,6 +10,8 @@ import com.cengizhan.ordermanagement.repository.IOrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,10 +20,12 @@ public class OrderService {
 
     private final IOrderRepository iOrderRepository;
     private final CustomerService customerService;
+    private final Clock clock;
 
-    public OrderService(IOrderRepository iOrderRepository, CustomerService customerService) {
+    public OrderService(IOrderRepository iOrderRepository, CustomerService customerService, Clock clock) {
         this.iOrderRepository = iOrderRepository;
         this.customerService = customerService;
+        this.clock = clock;
     }
 
     protected Order getOrder(Long id) {
@@ -37,7 +41,7 @@ public class OrderService {
         Order order = Order.builder()
                 .totalPrice(orderCreateRequest.totalPrice())
                 .relationCustomer(customer)
-                .createdAt(LocalDateTime.now())
+                .createdAt(getLocalDateTimeNow())
                 .build();
         iOrderRepository.save(order);
         return OrderDto.convert(order);
@@ -58,7 +62,7 @@ public class OrderService {
     public OrderDto orderUpdate(Long id, OrderUpdateRequest orderUpdateRequest) {
         Order order = getOrder(id);
         order.setTotalPrice(orderUpdateRequest.totalPrice());
-        order.setCreatedAt(LocalDateTime.now());
+        order.setCreatedAt(getLocalDateTimeNow());
         return OrderDto.convert(iOrderRepository.save(order));
     }
 
@@ -76,5 +80,12 @@ public class OrderService {
     public List<OrderDto> orderFindAllByCreatedAtAfter(LocalDateTime date) {
         List<Order> orders = iOrderRepository.findAllByCreatedAtAfter(date);
         return orders.stream().map(OrderDto::convert).toList();
+    }
+
+    private LocalDateTime getLocalDateTimeNow() {
+        Instant instant = clock.instant();
+        return LocalDateTime.ofInstant(
+                instant,
+                Clock.systemDefaultZone().getZone());
     }
 }
