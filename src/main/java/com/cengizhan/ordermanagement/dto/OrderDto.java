@@ -1,13 +1,10 @@
-package com.cengizhan.ordermanagement.business.dto;
+package com.cengizhan.ordermanagement.dto;
 
-import com.cengizhan.ordermanagement.auditing.AuditingAwareBaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import java.io.Serializable;
-import java.util.Date;
 
 // LOMBOK
 @Data
@@ -18,9 +15,7 @@ import java.util.Date;
 // Validation
 
 // CategoryDto(1) - BlogDto(N)
-public class OrderDto extends AuditingAwareBaseDto implements Serializable {
-
-    public static final Long serialVersionUID=1L;
+public class OrderDto {
 
     private Double totalPrice;
     private Long customerId;

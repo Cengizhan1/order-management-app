@@ -1,12 +1,10 @@
-package com.cengizhan.ordermanagement.data.entity;
+package com.cengizhan.ordermanagement.entity;
 
-import com.cengizhan.ordermanagement.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -15,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "customers")
-public class CustomerEntity extends BaseEntity implements Serializable {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +26,7 @@ public class CustomerEntity extends BaseEntity implements Serializable {
     @Column(name = "age")
     private Integer age;
 
-    @OneToMany(mappedBy = "relationCustomerEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    List<OrderEntity> relationOrderEntityList;
+    @OneToMany(mappedBy = "relationCustomer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    List<Order> relationOrderList;
 
 }

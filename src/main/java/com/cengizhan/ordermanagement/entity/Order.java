@@ -1,23 +1,18 @@
-package com.cengizhan.ordermanagement.data.entity;
+package com.cengizhan.ordermanagement.entity;
 
-import com.cengizhan.ordermanagement.data.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import java.io.Serializable;
 
-// LOMBOK
 @Data
 @Log4j2
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
-public class OrderEntity extends BaseEntity implements Serializable {
-
-    public static final Long serialVersionUID = 1L;
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +25,5 @@ public class OrderEntity extends BaseEntity implements Serializable {
     //  RELATION
     @ManyToOne(optional = false)
     @JoinColumn(name="customer_id",nullable = false)
-    private CustomerEntity relationCustomerEntity;
+    private Customer relationCustomer;
 }
