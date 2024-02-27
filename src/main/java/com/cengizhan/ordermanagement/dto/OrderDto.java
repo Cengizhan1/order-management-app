@@ -1,22 +1,19 @@
 package com.cengizhan.ordermanagement.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
-// LOMBOK
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Log4j2
-@Builder
-// Validation
+import com.cengizhan.ordermanagement.entity.Order;
 
-// CategoryDto(1) - BlogDto(N)
-public class OrderDto {
+import java.time.LocalDateTime;
 
-    private Double totalPrice;
-    private Long customerId;
+public record OrderDto(
+        Double totalPrice,
+        CustomerDto customerDto,
+        LocalDateTime createdAt
+) {
+    public static OrderDto convert(Order order) {
+        return new OrderDto(
+                order.getTotalPrice(),
+                CustomerDto.convert(order.getRelationCustomer()),
+                order.getCreatedAt());
+    }
 }
