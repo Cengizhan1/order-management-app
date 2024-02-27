@@ -1,25 +1,25 @@
 package com.cengizhan.ordermanagement.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDateTime;
 
 @Data
-@Log4j2
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@SuperBuilder
+@NoArgsConstructor
 @Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="order_id",unique = true,nullable = false,insertable = true,updatable = false)
-    private Long orderId;
+    @Column(unique = true, nullable = false, insertable = true, updatable = false)
+    private Long id;
 
-    @Column(name = "total_price")
+    private LocalDateTime createdAt;
     private Double totalPrice;
 
     //  RELATION
