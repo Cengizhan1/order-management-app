@@ -1,17 +1,15 @@
 package com.cengizhan.ordermanagement.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Data
-@Log4j2
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@SuperBuilder
+@NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
 

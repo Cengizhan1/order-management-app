@@ -64,7 +64,7 @@ public class OrderService {
 
     @Transactional // create, delete, update
     public void orderDeleteById(Long id) {
-        getOrder(id); // TODO deleteById methodu mevcut olmayan bir id geldiğinde nasıl hata verir handle edilebilir mi
+        getOrder(id); // TODO deleteById metodu mevcut olmayan bir id geldiğinde nasıl hata verir handle edilebilir mi
         iOrderRepository.deleteById(id);
     }
 
@@ -73,7 +73,7 @@ public class OrderService {
         iOrderRepository.deleteAll();
     }
 
-    public List<OrderDto> orderFindByCreatedDateAfter(LocalDateTime date) {
+    public List<OrderDto> orderFindByCreatedAtAfter(LocalDateTime date) {
         List<Order> orders = iOrderRepository.findByCreatedAtAfter(date);
         return orders.stream().map(OrderDto::convert).toList();
     }

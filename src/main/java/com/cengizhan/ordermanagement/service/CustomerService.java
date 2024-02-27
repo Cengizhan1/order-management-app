@@ -1,10 +1,14 @@
 package com.cengizhan.ordermanagement.service;
 
 import com.cengizhan.ordermanagement.dto.CustomerDto;
+import com.cengizhan.ordermanagement.dto.request.CustomerCreateRequest;
+import com.cengizhan.ordermanagement.dto.request.CustomerUpdateRequest;
 import com.cengizhan.ordermanagement.entity.Customer;
+import com.cengizhan.ordermanagement.exception.CustomerNotFoundException;
 import com.cengizhan.ordermanagement.repository.ICustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,102 +21,66 @@ public class CustomerService {
         this.iCustomerRepository = iCustomerRepository;
     }
 
+    protected Customer getCustomer(Long id) {
+        return iCustomerRepository.findById(id)
+                .orElseThrow(
+                        () -> new CustomerNotFoundException("Customer could not find by id: " + id));
 
-    // CREATE
-//    @Transactional // create, delete, update
-//    public CustomerDto customerServiceCreate(CustomerDto customerDto) {
-//        if(customerDto!=null){
-//            Customer customer =dtoToEntity(customerDto);
-//            iCustomerRepository.save(customer);
-//            customerDto.setId(customer.getCustomerId());
-//            customerDto.setCreatedDate(customer.getCreatedDate());
-//        }else{
-//            throw  new NullPointerException( " CustomerDto null");
-//        }
-//        return customerDto;
-//    }
-
-//    // LIST
-//    public List<CustomerDto> customerServiceList() {
-//        Iterable<Customer> entityIterable=  iCustomerRepository.findAll();
-//        List<CustomerDto> customerDtoList=new ArrayList<>();
-//        for (Customer entity:  entityIterable) {
-//            CustomerDto customerDto=entityToDto(entity);
-//            customerDto.setCreatedDate(entity.getCreatedDate());
-//            customerDtoList.add(customerDto);
-//        }
-//        return customerDtoList;
-//    }
-//
-//    // FIND
-//    public CustomerDto customerServiceFindById(Long id) {
-//        Customer findCustomer =  null;
-//        if(id!=null){
-//            findCustomer =  iCustomerRepository.findById(id)
-//                    .orElseThrow(()->new ResourceNotFoundException(id+" nolu id yoktur"));
-//
-//        }else {
-//            throw new CustomException("İd null olarak geldi");
-//        }
-//        return entityToDto(findCustomer);
-//    }
-//
-//    // UPDATE
-//    @Transactional // create, delete, update
-//    public CustomerDto customerServiceUpdate(Long id, CustomerDto customerDto) {
-//        CustomerDto customerFindDto= customerServiceFindById(id);
-//        if(customerFindDto!=null){
-//            Customer customer =dtoToEntity(customerFindDto);
-//            customer.setName(customerDto.getName());
-//            customer.setAge(customerDto.getAge());
-//            iCustomerRepository.save(customer);
-//            customerDto.setId(customer.getCustomerId());
-//            customerDto.setCreatedDate(customer.getCreatedDate());
-//
-//        }
-//        return customerDto;
-//    }
-//
-//    // DELETE
-//    @Transactional // create, delete, update
-//    public CustomerDto customerServiceDeleteById(Long id) {
-//        CustomerDto customerFindDto=customerServiceFindById(id);
-//        if(customerFindDto!=null){
-//            iCustomerRepository.deleteById(id);
-//            customerFindDto.setId(id);
-//        }
-//        return customerFindDto;
-//    }
-//
-//
-//    @Transactional // create, delete, update
-//    public CustomerDto customerServiceDeleteAll() {
-//            iCustomerRepository.deleteAll();
-//        return null;
-//    }
-//
-//
-//    public List<CustomerDto> getCustomersByNameContains(String keyword) {
-//        List<Customer> customerEntities = iCustomerRepository.findByNameContainingIgnoreCase(keyword);
-//        List<CustomerDto> customerDtoList = new ArrayList<>();
-//
-//        for (Customer entity : customerEntities) {
-//            CustomerDto customerDto = entityToDto(entity);
-//            customerDtoList.add(customerDto);
-//        }
-//        return customerDtoList;
-//    }
-//
-//
-//    public List<CustomerDto> getCustomersWithoutOrders() {
-//        List<Customer> customerEntities = iCustomerRepository.findByRelationOrderListIsNull();
-//        List<CustomerDto> customerDtoList = new ArrayList<>();
-//        for (Customer entity : customerEntities) {
-//            CustomerDto customerDto = entityToDto(entity);
-//            customerDtoList.add(customerDto);
-//        }
-//        return customerDtoList;
-//    }
+    }
 
 
+    @Transactional
+    public CustomerDto customerCreate(CustomerCreateRequest customerCreateRequest) {
+        Customer customer = Customer.builder()
+                .name(customerCreateRequest.name())
+                .age(customerCreateRequest.age())
+                .build();
+        return CustomerDto.convert(iCustomerRepository.save(customer));
+    }
+
+
+    public List<CustomerDto> customerList() {
+        return iCustomerRepository.findAll()
+                .stream()
+                .map(CustomerDto::convert)
+                .toList();
+    }
+
+    public CustomerDto customerFindById(Long id) {
+        return CustomerDto.convert(getCustomer(id));
+    }
+
+
+    @Transactional
+    public CustomerDto customerUpdate(Long id, CustomerUpdateRequest customerUpdateRequest) {
+        Customer customer = getCustomer(id);
+        customer.setName(customerUpdateRequest.name());
+        customer.setAge(customerUpdateRequest.age());
+        return CustomerDto.convert(iCustomerRepository.save(customer));
+    }
+
+    @Transactional // create, delete, update
+    public void customerDeleteById(Long id) {
+        getCustomer(id);// TODO deleteById metodu mevcut olmayan bir id geldiğinde nasıl hata verir handle edilebilir mi
+        iCustomerRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void customerDeleteAll() {
+        iCustomerRepository.deleteAll();
+    }
+
+    public List<CustomerDto> getCustomersByNameContaining(String keyword) {
+        return iCustomerRepository.findAllByNameContainingIgnoreCase(keyword)
+                .stream()
+                .map(CustomerDto::convert)
+                .toList();
+    }
+
+    public List<CustomerDto> getCustomersWithoutOrders() {
+        return iCustomerRepository.findAllByRelationOrderListEmpty()
+                .stream()
+                .map(CustomerDto::convert)
+                .toList();
+    }
 }
