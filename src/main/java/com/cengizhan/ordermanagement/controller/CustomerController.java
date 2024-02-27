@@ -4,6 +4,7 @@ import com.cengizhan.ordermanagement.dto.CustomerDto;
 import com.cengizhan.ordermanagement.dto.request.CustomerCreateRequest;
 import com.cengizhan.ordermanagement.dto.request.CustomerUpdateRequest;
 import com.cengizhan.ordermanagement.service.CustomerService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import java.util.List;
 
 
 @RestController
+@RateLimiter(name = "basic")
 @RequestMapping("/v1/api/customer")
 public class CustomerController {
 

@@ -4,6 +4,7 @@ import com.cengizhan.ordermanagement.dto.OrderDto;
 import com.cengizhan.ordermanagement.dto.request.OrderCreateRequest;
 import com.cengizhan.ordermanagement.dto.request.OrderUpdateRequest;
 import com.cengizhan.ordermanagement.service.OrderService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RateLimiter(name = "basic")
 @RequestMapping("/v1/api/order")
 public class OrderController {
 
