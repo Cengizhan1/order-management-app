@@ -37,7 +37,7 @@ public class OrderService {
         Order order = Order.builder()
                 .totalPrice(orderCreateRequest.totalPrice())
                 .relationCustomer(customer)
-                .createdAt(orderCreateRequest.createdAt())
+                .createdAt(LocalDateTime.now())
                 .build();
         iOrderRepository.save(order);
         return OrderDto.convert(order);
@@ -58,7 +58,7 @@ public class OrderService {
     public OrderDto orderUpdate(Long id, OrderUpdateRequest orderUpdateRequest) {
         Order order = getOrder(id);
         order.setTotalPrice(orderUpdateRequest.totalPrice());
-        order.setCreatedAt(orderUpdateRequest.createdAt());
+        order.setCreatedAt(LocalDateTime.now());
         return OrderDto.convert(iOrderRepository.save(order));
     }
 

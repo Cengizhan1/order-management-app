@@ -55,7 +55,7 @@ public class OrderController {
     }
 
     // http://localhost:8000/v1/api/order/1
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> orderDeleteById(@NotBlank @PathVariable(name = "id") Long id) {
         orderService.orderDeleteById(id);
         return ResponseEntity.ok().build();
@@ -72,7 +72,7 @@ public class OrderController {
     // http://localhost:8000/v1/api/order/after/{date}
     @GetMapping("/after/{date}")
     public ResponseEntity<List<OrderDto>> getOrdersAfterDate(
-            @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime date) {
+            @PathVariable("date") LocalDateTime date) {
         return ResponseEntity.ok(orderService.orderFindAllByCreatedAtAfter(date));
     }
 

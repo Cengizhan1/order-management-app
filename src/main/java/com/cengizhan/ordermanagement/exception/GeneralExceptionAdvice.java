@@ -38,7 +38,12 @@ public class GeneralExceptionAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<?> customerNotFoundExceptionHandler(CustomerNotFoundException exception) {
+    public ResponseEntity<?> handle(CustomerNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<?> handle(OrderNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

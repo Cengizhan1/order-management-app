@@ -15,8 +15,8 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="customer_id",unique = true,nullable = false,insertable = true,updatable = false)
-    private Long customerId;
+    @Column(name="id",unique = true,nullable = false,insertable = true,updatable = false)
+    private Long id;
 
     @Column(name = "name")
     private String name;
