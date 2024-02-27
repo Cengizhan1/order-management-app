@@ -73,8 +73,8 @@ public class OrderService {
         iOrderRepository.deleteAll();
     }
 
-    public List<OrderDto> orderFindByCreatedAtAfter(LocalDateTime date) {
-        List<Order> orders = iOrderRepository.findByCreatedAtAfter(date);
+    public List<OrderDto> orderFindAllByCreatedAtAfter(LocalDateTime date) {
+        List<Order> orders = iOrderRepository.findAllByCreatedAtAfter(date);
         return orders.stream().map(OrderDto::convert).toList();
     }
 }

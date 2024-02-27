@@ -1,18 +1,22 @@
 package com.cengizhan.ordermanagement.controller;
 
 import com.cengizhan.ordermanagement.dto.OrderDto;
+import com.cengizhan.ordermanagement.dto.request.OrderCreateRequest;
+import com.cengizhan.ordermanagement.dto.request.OrderUpdateRequest;
 import com.cengizhan.ordermanagement.service.OrderService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order/api/v1")
+@RequestMapping("/v1/api/order")
 public class OrderController {
 
     // Injection
@@ -22,61 +26,54 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-//    // CREATE
-//    // http://localhost:8000/order/api/v1/create
-//    @PostMapping("/create")
-//    public ResponseEntity<?> orderApiCreate(@Valid @RequestBody OrderDto orderDto) {
-//        return ResponseEntity.ok(iOrderServices.orderServiceCreate(orderDto));
-//    }
-//
-//    // LIST
-//    // http://localhost:8000/order/api/v1/list
-//
-//    @GetMapping(value = "/list")
-//    public ResponseEntity<List<OrderDto>> orderApiList() {
-//        return ResponseEntity.status(HttpStatus.OK).body(iOrderServices.orderServiceList());
-//    }
-//
-//    // FIND
-//    // http://localhost:8000/order/api/v1/find/1
-//
-//    @GetMapping(value = "/find/{id}")
-//    public ResponseEntity<?>  orderApiFindById(@PathVariable(name = "id") Long id) {
-//        return ResponseEntity.status(200).body(iOrderServices.orderServiceFindById(id));
-//    }
-//
-//    // UPDATE
-//    // http://localhost:8000/order/api/v1/update/1
-//
-//    @PutMapping(value = "/update/{id}")
-//    public ResponseEntity<?> orderApiUpdate(@PathVariable(name = "id") Long id, @Valid @RequestBody OrderDto orderDto) {
-//        return ResponseEntity.ok().body(iOrderServices.orderServiceUpdate(id, orderDto));
-//    }
-//
-//    // DELETE BY ID
-//    // http://localhost:8000/order/api/v1/delete/1
-//
-//    @DeleteMapping(value = "/delete/{id}")
-//    public ResponseEntity<?> orderApiDeleteById(@PathVariable(name = "id") Long id) {
-//        return new ResponseEntity<>(iOrderServices.orderServiceDeleteById(id), HttpStatus.OK);
-//    }
-//
-//    ///////////////////////////////////////////////////////
-//    // ALL DELETE
-//    // http://localhost:8000/order/api/v1/all/delete
-//
-//    @PostMapping(value = "/all/delete")
-//    public ResponseEntity<?> orderApiAllDelete() {
-//        return new ResponseEntity<>(iOrderServices.orderServiceDeleteAll(), HttpStatus.OK);
-//    }
-//
-//    ///////////////////////////////////////////////////////
-//    // ALL DELETE
-//    // http://localhost:8000/order/api/v1/after/{date}
-//
-//    @GetMapping("/after")
-//    public ResponseEntity<List<OrderDto>> getOrdersAfterDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-//        return ResponseEntity.status(HttpStatus.OK).body(iOrderServices.orderServiceFindByCreatedDateAfter(date));
-//    }
+    // http://localhost:8000/v1/api/order
+    @PostMapping
+    public ResponseEntity<OrderDto> orderCreate(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
+        return ResponseEntity.ok(orderService.orderCreate(orderCreateRequest));
+    }
+
+
+    // http://localhost:8000/v1/api/order
+    @GetMapping
+    public ResponseEntity<List<OrderDto>> orderList() {
+        return ResponseEntity.ok(orderService.orderList());
+    }
+
+
+    // http://localhost:8000/v1/api/order/1
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<OrderDto>  orderFindById(@NotBlank @PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(orderService.orderFindById(id));
+    }
+
+
+    // http://localhost:8000/v1/api/order/1
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<OrderDto> orderUpdate(@NotBlank @PathVariable(name = "id") Long id,
+                                            @Valid @RequestBody OrderUpdateRequest orderUpdateRequest) {
+        return ResponseEntity.ok(orderService.orderUpdate(id, orderUpdateRequest));
+    }
+
+    // http://localhost:8000/v1/api/order/1
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<Void> orderDeleteById(@NotBlank @PathVariable(name = "id") Long id) {
+        orderService.orderDeleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+    // http://localhost:8000/v1/api/order/all/delete
+    @PostMapping(value = "/all/delete")
+    public ResponseEntity<Void> orderAllDelete() {
+        orderService.orderDeleteAll();
+        return ResponseEntity.ok().build();
+    }
+
+    // http://localhost:8000/v1/api/order/after/{date}
+    @GetMapping("/after/{date}")
+    public ResponseEntity<List<OrderDto>> getOrdersAfterDate(
+            @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime date) {
+        return ResponseEntity.ok(orderService.orderFindAllByCreatedAtAfter(date));
+    }
 
 }
