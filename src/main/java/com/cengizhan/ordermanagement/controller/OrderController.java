@@ -46,21 +46,21 @@ public class OrderController {
 
     // http://localhost:8000/v1/api/order/1
     @GetMapping(value = "/{id}")
-    public ResponseEntity<OrderDto>  orderFindById(@NotBlank @PathVariable(name = "id") Long id) {
+    public ResponseEntity<OrderDto>  orderFindById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(orderService.orderFindById(id));
     }
 
 
     // http://localhost:8000/v1/api/order/1
     @PutMapping(value = "/{id}")
-    public ResponseEntity<OrderDto> orderUpdate(@NotBlank @PathVariable(name = "id") Long id,
+    public ResponseEntity<OrderDto> orderUpdate(@PathVariable(name = "id") Long id,
                                             @Valid @RequestBody OrderUpdateRequest orderUpdateRequest) {
         return ResponseEntity.ok(orderService.orderUpdate(id, orderUpdateRequest));
     }
 
     // http://localhost:8000/v1/api/order/1
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> orderDeleteById(@NotBlank @PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> orderDeleteById(@PathVariable(name = "id") Long id) {
         orderService.orderDeleteById(id);
         return ResponseEntity.ok().build();
     }

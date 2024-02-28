@@ -42,13 +42,13 @@ public class CustomerController {
 
     // http://localhost:8000/v1/api/customer/1
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CustomerDto>  customerFindById(@NotBlank @PathVariable(name = "id") Long id) {
+    public ResponseEntity<CustomerDto>  customerFindById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(customerService.customerFindById(id));
     }
 
     // http://localhost:8000/v1/api/customer/1
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> customerUpdate(@NotBlank @PathVariable(name = "id") Long id,
+    public ResponseEntity<?> customerUpdate(@PathVariable(name = "id") Long id,
                                             @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
         return ResponseEntity.ok(customerService.customerUpdate(id, customerUpdateRequest));
     }
@@ -56,7 +56,7 @@ public class CustomerController {
 
     // http://localhost:8000/v1/api/customer/1
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> customerDeleteById(@NotBlank @PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> customerDeleteById(@PathVariable(name = "id") Long id) {
         customerService.customerDeleteById(id);
         return ResponseEntity.ok().build();
     }
@@ -71,7 +71,7 @@ public class CustomerController {
     // http://localhost:8000/v1/api/customer/getByNameContains/{keyword}
     @GetMapping("/getByNameContains/{keyword}")
     public ResponseEntity<List<CustomerDto>> getCustomersByNameContains(
-            @PathVariable(name = "keyword") String keyword) {
+            @NotBlank @PathVariable(name = "keyword") String keyword) {
         return ResponseEntity.ok(customerService.getCustomersByNameContaining(keyword));
     }
 

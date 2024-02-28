@@ -1,6 +1,7 @@
 package com.cengizhan.ordermanagement;
 
 import com.cengizhan.ordermanagement.entity.Customer;
+import com.cengizhan.ordermanagement.entity.Order;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -26,6 +27,14 @@ public class TestSupport {
         return Customer.builder()
                 .name("Cengizhan")
                 .age(30)
+                .build();
+    }
+
+    public Order generateOrder(Customer customer) {
+        return Order.builder()
+                .totalPrice(100.0)
+                .createdAt(getLocalDateTime())
+                .relationCustomer(customer)
                 .build();
     }
 }
