@@ -11,11 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class CustomerService {
 
     private final ICustomerRepository iCustomerRepository;
+    private final Logger logger = Logger.getLogger(CustomerService.class.getName());
 
     public CustomerService(ICustomerRepository iCustomerRepository) {
         this.iCustomerRepository = iCustomerRepository;
@@ -35,6 +37,7 @@ public class CustomerService {
                 .name(customerCreateRequest.name())
                 .age(customerCreateRequest.age())
                 .build();
+        logger.info("Customer created by id: " + customer.getId());
         return CustomerDto.convert(iCustomerRepository.save(customer));
     }
 
@@ -56,6 +59,7 @@ public class CustomerService {
         Customer customer = getCustomer(id);
         customer.setName(customerUpdateRequest.name());
         customer.setAge(customerUpdateRequest.age());
+        logger.info("Customer updated by id: " + customer.getId());
         return CustomerDto.convert(iCustomerRepository.save(customer));
     }
 
@@ -63,6 +67,7 @@ public class CustomerService {
     public void customerDeleteById(Long id) {
         getCustomer(id);// TODO deleteById metodu mevcut olmayan bir id geldiğinde nasıl hata verir handle edilebilir mi
         iCustomerRepository.deleteById(id);
+        logger.info("Customer deleted by id: " + id);
     }
 
     @Transactional

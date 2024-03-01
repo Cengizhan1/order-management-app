@@ -1,30 +1,39 @@
 version: '3.9'
 
 services:
+  db:
+    image: mysql:latest
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=order-management
+    ports:
+      - "3307:3306"
+    networks:
+      - order-management-network
   app:
-    image: 'order-management-app:latest'
+    depends_on:
+      - db
+    image: 'order-management:latest'
     build:
       context: .
-    ports:
-      - "8080"
     deploy:
       mode: replicated
       replicas: 1
     networks:
-      - order-management-app-network
-  db:
-    image: mysql
-    restart: always
-    container_name: order-management-db
-    environment:
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE: order-management
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
+      - order-management-network
+    env_file: ./.env
     ports:
-      - '3306:3306'
-    networks:
-      - order-management-app-network
+      - "8000:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://db:3307/order-management?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "123456",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
   prometheus:
     image: prom/prometheus:v2.35.0
     container_name: prometheus
@@ -36,7 +45,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
     networks:
-      - order-management-app-network
+      - order-management-network
   grafana:
     image: grafana/grafana-oss:8.5.2
     pull_policy: always
@@ -50,6 +59,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SERVER_DOMAIN=localhost
     networks:
-      - order-management-app-network
+      - order-management-network
 networks:
-  order-management-app-network:
+  order-management-network:

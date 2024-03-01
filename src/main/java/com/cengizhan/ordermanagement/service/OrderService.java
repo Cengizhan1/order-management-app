@@ -14,6 +14,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class OrderService {
@@ -21,6 +22,7 @@ public class OrderService {
     private final IOrderRepository iOrderRepository;
     private final CustomerService customerService;
     private final Clock clock;
+    private final Logger logger = Logger.getLogger(OrderService.class.getName());
 
     public OrderService(IOrderRepository iOrderRepository, CustomerService customerService, Clock clock) {
         this.iOrderRepository = iOrderRepository;
@@ -43,8 +45,9 @@ public class OrderService {
                 .relationCustomer(customer)
                 .createdAt(getLocalDateTimeNow())
                 .build();
-        iOrderRepository.save(order);
-        return OrderDto.convert(order);
+        logger.info("Order created by id: " + order.getId());
+        return OrderDto.convert(iOrderRepository.save(order);
+
     }
 
     public List<OrderDto> orderList() {
@@ -63,6 +66,7 @@ public class OrderService {
         Order order = getOrder(id);
         order.setTotalPrice(orderUpdateRequest.totalPrice());
         order.setCreatedAt(getLocalDateTimeNow());
+        logger.info("Order updated by id: " + order.getId());
         return OrderDto.convert(iOrderRepository.save(order));
     }
 
@@ -70,6 +74,7 @@ public class OrderService {
     public void orderDeleteById(Long id) {
         getOrder(id); // TODO deleteById metodu mevcut olmayan bir id geldiğinde nasıl hata verir handle edilebilir mi
         iOrderRepository.deleteById(id);
+        logger.info("Order deleted by id: " + id);
     }
 
     @Transactional // create, delete, update

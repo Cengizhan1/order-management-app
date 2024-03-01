@@ -8,6 +8,6 @@ COPY src src
 RUN ./mvnw package
 
 FROM openjdk:17-jdk-slim
-WORKDIR order-management-app
+WORKDIR order-management
 COPY --from=build target/*.jar order-management.jar
 ENTRYPOINT ["java", "-jar", "order-management.jar"]
