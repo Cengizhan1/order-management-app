@@ -46,8 +46,7 @@ public class OrderService {
                 .createdAt(getLocalDateTimeNow())
                 .build();
         logger.info("Order created by id: " + order.getId());
-        return OrderDto.convert(iOrderRepository.save(order);
-
+        return OrderDto.convert(iOrderRepository.save(order));
     }
 
     public List<OrderDto> orderList() {
