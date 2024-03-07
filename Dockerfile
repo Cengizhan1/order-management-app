@@ -1,13 +1,9 @@
-FROM openjdk:17-jdk-slim AS build
-
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
-RUN ./mvnw dependency:resolve
-
-COPY src src
-RUN ./mvnw package
-
-FROM openjdk:17-jdk-slim
-WORKDIR order-management
-COPY --from=build target/*.jar order-management.jar
-ENTRYPOINT ["java", "-jar", "order-management.jar"]
+#
+# Build stage
+#
+FROM maven:3.8.3-openjdk-17 AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/home/app/target/order-management.jar"]
