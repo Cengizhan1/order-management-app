@@ -8,15 +8,19 @@ services:
     networks:
       - order-management-net
     environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb:3306/order-management?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
-      - spring.datasource.username=user
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/order-management?createDatabaseIfNotExist=true&autoReconnect=true
+      - spring.datasource.username=root
       - spring.datasource.password=123456
+      - spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.show-sql=true
     depends_on:
       - mysqldb
     volumes:
       - .m2:/root/.m2
 
   mysqldb:
+    container_name: mysqldb
     image: "mysql:8.0"
     restart: always
     ports:
@@ -25,7 +29,7 @@ services:
       - order-management-net
     environment:
       MYSQL_DATABASE: order-management
-      MYSQL_USER: user
+      MYSQL_USER: root
       MYSQL_PASSWORD: 123456
       MYSQL_ROOT_PASSWORD: 123456
 networks:

@@ -2,23 +2,37 @@
 
 This project is developed using Java Spring Boot framework with a layered architecture. The project utilizes Java's Hibernate, Security, and Spring Data frameworks. Additionally, JWT (JSON Web Token) services are used for authentication and authorization processes. On the front-end side, the JavaScript Axios library is employed for API communication.
 
-Technologies Used
-- Java Spring Boot
-- Hibernate
-- Spring Data
-- Spring Security
-- JWT (JSON Web Token)
-- React (Front-end)
-- JavaScript (Axios library)
-- MySql
+## Technologies
+
+---
+- Java 17
+- Spring Boot
+- Open API Documentation
+- Spring Data JPA
+- Mysql
+- Restful API
+- Maven
+- Junit5
+- Mockito
+- Integration Tests
+- Docker
+- Docker Compose
+- Prometheus
+- Grafana
 
 
 
 ## Requirements
 ```
 - Java 17 or higher
-- Database (default is MySQL)
+- Database (MySQL)
 ```
+
+## Prerequisites
+
+---
+- Maven or Docker
+---
 
 ## Installation
 1. Clone the project:
