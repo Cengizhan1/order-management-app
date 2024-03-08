@@ -5,11 +5,12 @@
 * It includes endpoints such as `/v1/api/customer/getCustomersWithoutOrders` to fetch users without orders, `/v1/api/customer/getByNameContains/{keyword}`for filtering users by name,
   and `/v1/api/order/after/{date}` for filtering orders by a specific date. 
 * The application follows a layered architecture and has unit and integration tests implemented.
+* On the swagger page you can find the relevant api endpoint.
+  You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` url.
 
 
-On the swagger page you can find the relevant api endpoint.
-You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` url.
 ---
+ 
 ## Technologies
 
 - Java 17
