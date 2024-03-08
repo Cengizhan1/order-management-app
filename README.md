@@ -9,10 +9,9 @@
 
 On the swagger page you can find the relevant api endpoint.
 You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` url.
-
+---
 ## Technologies
 
----
 - Java 17
 - Spring Boot 3.0
 - Open API Documentation
@@ -29,7 +28,7 @@ You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` 
 - Docker Compose
 - Prometheus
 - Grafana
-
+---
 
 
 ## Requirements
@@ -37,10 +36,9 @@ You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` 
 - Java 17 or higher
 - Database (MySQL and H2 in memory DB for tests)
 ```
-
+---
 ## Prerequisites
 
----
 - Maven or Docker
 ---
 
@@ -57,9 +55,13 @@ $ docker-compose up -d
 Docker compose creates a instance of the application on port 8080
 
 #### You can reach the open-api-ui via  `http://{HOST}:8080/swagger-ui.html`
+
+---
 ### Prometheus
 #### You can reach prometheus page via `http://{HOST}:9090`
 ![Prometheus 1](assets/prometheus1.jpg) ![Prometheus 2](assets/prometheus2.jpg)
+
+---
 ### Grafana
 #### You can reach grafana page via `http://{HOST}:3000` - GF_SECURITY_ADMIN_PASSWORD=admin
 ![Grafana](assets/grafana.jpg)
