@@ -1,6 +1,5 @@
 # Order Management App
 
-latest version of the document -> https://docs.google.com/document/d/1MU2sROrm1WQASzx_I0PfWEEFq4QkEuYleCD0e_2FXnE/edit?usp=sharing
 ### The service provides an API
 * This application comprises Order and Customer models, along with CRUD operations and includes a rate limiter (Resilience4j). 
 * It includes endpoints such as `/v1/api/customer/getCustomersWithoutOrders` to fetch users without orders, `/v1/api/customer/getByNameContains/{keyword}`for filtering users by name,
