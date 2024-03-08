@@ -1,16 +1,26 @@
 # Order Management App
 
-This project is developed using Java Spring Boot framework with a layered architecture. The project utilizes Java's Hibernate, Security, and Spring Data frameworks. Additionally, JWT (JSON Web Token) services are used for authentication and authorization processes. On the front-end side, the JavaScript Axios library is employed for API communication.
+### The service provides an API
+* This application comprises Order and Customer models, along with CRUD operations and includes a rate limiter (Resilience4j). 
+* It includes endpoints such as `/v1/api/customer/getCustomersWithoutOrders` to fetch users without orders, `/v1/api/customer/getByNameContains/{keyword}`for filtering users by name,
+  and `/v1/api/order/after/{date}` for filtering orders by a specific date. 
+* The application follows a layered architecture and has unit and integration tests implemented.
+
+
+On the swagger page you can find the relevant api endpoint.
+You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` url.
 
 ## Technologies
 
 ---
 - Java 17
-- Spring Boot
+- Spring Boot 3.0
 - Open API Documentation
 - Spring Data JPA
 - Mysql
+- H2 In Memory Database
 - Restful API
+- Resilience4j
 - Maven
 - Junit5
 - Mockito
@@ -25,7 +35,7 @@ This project is developed using Java Spring Boot framework with a layered archit
 ## Requirements
 ```
 - Java 17 or higher
-- Database (MySQL)
+- Database (MySQL and H2 in memory DB for tests)
 ```
 
 ## Prerequisites
@@ -34,35 +44,35 @@ This project is developed using Java Spring Boot framework with a layered archit
 - Maven or Docker
 ---
 
-## Installation
-1. Clone the project:
+## Docker Run
+The application can be built and run by the `Docker` engine. The `Dockerfile` has multistage build, so you do not need to build and run separately.
 
+Please follow the below directions in order to build and run the application with Docker Compose;
+
+```sh
+$ cd order-management-app
+$ docker-compose up -d
 ```
-git clone https://github.com/Cengizhan1/order-management-app.git
-``` 
-2. Navigate to the project directory:
 
+Docker compose creates a instance of the application on port 8080
+
+#### You can reach the open-api-ui via  `http://{HOST}:8080/swagger-ui.html`
+### Prometheus
+#### You can reach prometheus page via `http://{HOST}:9090`
+![Prometheus 1](assets/prometheus1.jpg) ![Prometheus 2](assets/prometheus2.jpg)
+### Grafana
+#### You can reach grafana page via `http://{HOST}:3000` - GF_SECURITY_ADMIN_PASSWORD=admin
+![Grafana](assets/grafana.jpg)
+
+---
+## Maven Run
+To build and run the application with `Maven`, please follow the directions below;
+
+```sh
+$ cd order-management-app
+$ mvn clean install
+$ mvn spring-boot:run
 ```
-cd order-management-app
-``` 
+You can reach the swagger-ui via  `http://{HOST}:8080/swagger-ui.html`
 
-## Project Setup
-1- Database Setup: \
-MySQL is used as the default database. To configure your database to MySQL, edit the application.properties file. \
-2- Start the Backend: \
-To start the Spring Boot application, run the following command:
-```
-./mvnw spring-boot:run
-``` 
-
-The project will run by default at http://localhost:3000
-
-## API Documentation
-You can find the API documentation here.
-It provides detailed information on available routes and their usage.
-
-postman : https://documenter.getpostman.com/view/16991416/2s9YXe953a
-
-## Contributers
-Cengizhan Yavuz \
-Email : cengizhany.cy@gmail.com
+---
