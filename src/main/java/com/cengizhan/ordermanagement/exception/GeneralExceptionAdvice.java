@@ -46,4 +46,9 @@ public class GeneralExceptionAdvice extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handle(OrderNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handle(IllegalArgumentException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
